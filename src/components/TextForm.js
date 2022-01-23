@@ -3,10 +3,10 @@ import './TextForm.css'
 export const TextForm = (props) => {
 
     // let inputTextArea=useRef();
-    const [darkModeStyle, setdarkModeStyle] = useState({
-        color: 'white',
-        backgroundColor: 'rgb(38,62,62)'
-       })
+    // const [darkModeStyle, setdarkModeStyle] = useState({
+    //     color: 'white',
+    //     backgroundColor: 'rgb(38,62,62)'
+    //    })
        
     //    const [props.mode, setprops.mode] = useState('dark-mode')
        
@@ -27,7 +27,7 @@ export const TextForm = (props) => {
     const onChangeHandler = (e) => {
         console.log("OnChangeHandler funciton is triggered");
         setText(e.target.value)
-        setoriginalText(text)
+        setoriginalText(e.target.value)
     }
     const c2capitalCase = () => {
         console.log("capital case funciton is triggered");
@@ -65,6 +65,11 @@ export const TextForm = (props) => {
         setText(originalText)
         props.onTextConversion({"show":true,"mssg":"Converted back to original Text"})
     }
+    const copy2Clipboard=()=>{
+        navigator.clipboard.writeText(text)
+        props.onTextConversion({"show":true,"mssg":"Copied to clipboard succesfully"})
+
+    }
     return (
         <>
             <div className={'container '+props.mode+'-mode'}>
@@ -73,16 +78,17 @@ export const TextForm = (props) => {
                     <label htmlFor="inputText" className="form-label"></label>
                     <textarea  className={'form-control '+props.mode+`-mode`} value={text} onChange={onChangeHandler} placeholder="Enter some Text here" name="inputText" id="inputText" rows="8"></textarea>
                     <div className="container">
-                        <button className="btn btn-primary  m-2 " onClick={c2upperCase}>Uppercase</button>
-                        <button className="btn btn-primary  m-2" onClick={c2lowerCase}>Lowercase</button>
-                        <button className="btn btn-primary  m-2" onClick={c2capitalCase}>Capitalize</button>
-                        <button className="btn btn-success  m-2" onClick={c2originalText}>Original</button>
-                        <button className="btn btn-primary  m-2" onClick={c2clearText}>Clear</button>
-                        <button className="btn btn-primary  m-2" onClick={removeExtraSpace}>Remove extra spaces</button>
+                        <button className="btn btn-primary  m-2" disabled={text?.length>0?false:true} onClick={c2upperCase}>Uppercase</button>
+                        <button className="btn btn-primary  m-2" disabled={text?.length>0?false:true} onClick={c2lowerCase}>Lowercase</button>
+                        <button className="btn btn-primary  m-2" disabled={text?.length>0?false:true} onClick={c2capitalCase}>Capitalize</button>
+                        <button className="btn btn-success  m-2" disabled={originalText?.length>0?false:true} onClick={c2originalText}>Original</button>
+                        <button className="btn btn-primary  m-2" disabled={text?.length>0?false:true} onClick={c2clearText}>Clear</button>
+                        <button className="btn btn-primary  m-2" disabled={text?.length>0?false:true} onClick={removeExtraSpace}>Remove extra spaces</button>
+                        <button className="btn btn-primary  m-2" disabled={text?.length>0?false:true} onClick={copy2Clipboard}>Copy to Clipboard</button>
                     </div>
                 </div>
             </div>
-            <div className="container" className={'container '+props.mode+`-mode`}>
+            <div  className={'container '+props.mode+`-mode`}>
                 <h4 className="my-2">Text Summary</h4>
                 <p id="TextSummary" className="p-2 d-inline-block">
                     <strong> Words</strong> : {text ? text.split(/\s(?=\w)/).length : 0} &nbsp; |

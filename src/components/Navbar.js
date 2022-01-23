@@ -13,7 +13,7 @@ export const Navbar = (props) => {
     return (<><nav className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
         <div className="container-fluid">
             <a className="navbar-brand" href="#">
-                <img src="/android-chrome-192x192.png" alt="Text Utilities image"  width="30" height="24" class="d-inline-block align-text-top"/>
+                <img src="/android-chrome-192x192.png" alt="Text Utilities "  width="30" height="24" className="d-inline-block align-text-top"/>
                 {props.title}
                 </a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

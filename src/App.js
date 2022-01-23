@@ -1,24 +1,49 @@
 import logo from './logo.svg';
 import './App.css';
+import { Navbar } from './components/Navbar';
+import { TextForm } from './components/TextForm';
+import { Alerts } from './components/Alerts';
+import React, { useState } from 'react';
+import { About } from './components/About'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  const [mode, setmode] = useState("light");
+  const [alertMssg, setalertMssg] = useState(null);
+
+  function handleModeChange(m) {
+    setmode(m);
+
+    m==="dark"?document.body.classList.remove("light-mode"):document.body.classList.remove("dark-mode")
+    document.body.classList.add(`${m}-mode`)
+  }
+  function textConversionHandle(m) {
+    console.log("Text conversion called")
+    setalertMssg({ "show": m.show, "mssg": m.mssg })
+    setTimeout(() => {
+      setalertMssg({ "show": false, "mssg": "" })
+    }, 1500);
+  }
+
+  return (<>
+    {/* onModeChange={setmode(e.target.value)} */}
+    <Router>
+    <Navbar mode={mode} onModeChange={handleModeChange} title="Text Utilities" />
+      <Routes>
+        <Route exact path="/" element={<> 
+        <Alerts show={alertMssg?.show}>{alertMssg?.mssg}</Alerts>
+        <TextForm mode={mode} onTextConversion={textConversionHandle} heading="Enter your text to Analyze"></TextForm>
+          </>}>
+        </Route>
+        <Route exact path="/about" element={<About mode={mode}/>}>
+        </Route>
+      </Routes>
+    </Router>
+  </>
   );
 }
 
